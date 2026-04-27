@@ -42,7 +42,8 @@ async function request<T>(
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
-  const json = await res.json();
+  const text = await res.text();
+  const json = text ? JSON.parse(text) : {};
 
   if (!res.ok) {
     throw new Error(json.message || "Request failed");
