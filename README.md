@@ -252,10 +252,10 @@ src/
 
 ## The Three-Repo System
 
-| Repo | Auth method | Token storage |
-|---|---|---|
-| `insighta-api` | Issues tokens | MongoDB (refresh tokens) |
-| `insighta-cli` | Bearer token | `~/.insighta/credentials.json` |
-| `insighta-web` | HTTP-only cookie | Browser (managed by backend) |
+| Repo | Auth method | Token storage | Install |
+|---|---|---|---|
+| `insighta-api` | Issues tokens | MongoDB (refresh tokens) | `cargo run` |
+| `insighta-cli` | Bearer token | `~/.insighta/credentials.json` | `./install.sh` |
+| `insighta-web` | HTTP-only cookie | Browser (managed by backend) | `npm install` |
 
 All three repos share the same backend data and enforce the same roles.
