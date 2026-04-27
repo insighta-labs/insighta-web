@@ -83,16 +83,7 @@ export function Dashboard() {
 
   return (
     <div className="page">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "24px",
-          paddingBottom: "12px",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
+      <div className="flex-between-responsive" style={{ marginBottom: "24px", paddingBottom: "12px", borderBottom: "1px solid var(--border)" }}>
         <h2 style={{ margin: 0, fontSize: "20px" }}>Dashboard</h2>
         {user?.role === "admin" && (
           <Link
@@ -114,14 +105,7 @@ export function Dashboard() {
       </div>
 
       {/* Metric cards */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "16px",
-          marginBottom: "32px",
-        }}
-      >
+      <div className="grid-dashboard" style={{ marginBottom: "32px" }}>
         <MetricCard label="Total Profiles" value={metrics!.total} />
         <MetricCard
           label="Male"
@@ -137,14 +121,7 @@ export function Dashboard() {
 
       {/* Recent profiles */}
       <div className="card">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "16px",
-          }}
-        >
+        <div className="flex-between-responsive" style={{ marginBottom: "16px" }}>
           <h3 style={{ margin: 0, fontSize: "14px", color: "var(--text-dim)" }}>
             RECENTLY ADDED
           </h3>
@@ -160,60 +137,62 @@ export function Dashboard() {
           </Link>
         </div>
 
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ borderBottom: "1px solid var(--border)" }}>
-              {["Name", "Gender", "Country", "Added"].map((h) => (
-                <th
-                  key={h}
-                  style={{
-                    textAlign: "left",
-                    padding: "8px 12px",
-                    fontSize: "11px",
-                    color: "var(--text-muted)",
-                    textTransform: "uppercase",
-                    letterSpacing: "1px",
-                    fontWeight: "normal",
-                  }}
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {metrics!.recent.map((p) => (
-              <tr
-                key={p.id}
-                style={{ borderBottom: "1px solid var(--border)" }}
-              >
-                <td style={{ padding: "10px 12px" }}>
-                  <Link
-                    to={`/profiles/${p.id}`}
-                    style={{ color: "var(--primary)", textDecoration: "none" }}
+        <div className="table-container">
+          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "600px" }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                {["Name", "Gender", "Country", "Added"].map((h) => (
+                  <th
+                    key={h}
+                    style={{
+                      textAlign: "left",
+                      padding: "8px 12px",
+                      fontSize: "11px",
+                      color: "var(--text-muted)",
+                      textTransform: "uppercase",
+                      letterSpacing: "1px",
+                      fontWeight: "normal",
+                    }}
                   >
-                    {p.name}
-                  </Link>
-                </td>
-                <td style={{ padding: "10px 12px", color: "var(--text-dim)" }}>
-                  {p.gender}
-                </td>
-                <td style={{ padding: "10px 12px", color: "var(--text-dim)" }}>
-                  {p.country_name}
-                </td>
-                <td
-                  style={{
-                    padding: "10px 12px",
-                    color: "var(--text-muted)",
-                    fontSize: "12px",
-                  }}
-                >
-                  {new Date(p.created_at).toLocaleDateString()}
-                </td>
+                    {h}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {metrics!.recent.map((p) => (
+                <tr
+                  key={p.id}
+                  style={{ borderBottom: "1px solid var(--border)" }}
+                >
+                  <td style={{ padding: "10px 12px" }}>
+                    <Link
+                      to={`/profiles/${p.id}`}
+                      style={{ color: "var(--primary)", textDecoration: "none" }}
+                    >
+                      {p.name}
+                    </Link>
+                  </td>
+                  <td style={{ padding: "10px 12px", color: "var(--text-dim)" }}>
+                    {p.gender}
+                  </td>
+                  <td style={{ padding: "10px 12px", color: "var(--text-dim)" }}>
+                    {p.country_name}
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px 12px",
+                      color: "var(--text-muted)",
+                      fontSize: "12px",
+                    }}
+                  >
+                    {new Date(p.created_at).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
