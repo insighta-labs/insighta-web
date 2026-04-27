@@ -22,7 +22,7 @@ export function Account() {
   if (!user) return null;
 
   return (
-    <div className="page" style={{ maxWidth: "600px", margin: "0 auto" }}>
+    <div className="page" style={{ maxWidth: "600px", margin: "0 auto", width: "100%" }}>
       <h2 className="page-title">Identity & Account</h2>
 
       <div className="card" style={{ padding: "32px" }}>

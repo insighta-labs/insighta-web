@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
 import { api } from "../lib/api";
+import "./Layout.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { user, setUser } = useAuthStore();
@@ -13,98 +14,43 @@ export function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
-    >
-      <header
-        style={{
-          borderBottom: "1px solid var(--border)",
-          padding: "0 32px",
-          height: "56px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          background: "var(--bg-card)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-          <Link
-            to="/dashboard"
-            style={{
-              color: "var(--primary)",
-              fontWeight: "bold",
-              fontSize: "16px",
-              letterSpacing: "2px",
-              textDecoration: "none",
-            }}
-          >
+    <div className="layout">
+      <header className="layout-header">
+        <div className="layout-header-left">
+          <Link to="/dashboard" className="layout-logo">
             INSIGHTA
           </Link>
-          <nav style={{ display: "flex", gap: "24px" }}>
-            <Link
-              to="/dashboard"
-              style={{ color: "var(--text-dim)", textDecoration: "none" }}
-            >
+          <nav className="layout-nav">
+            <Link to="/dashboard" className="layout-nav-link">
               Dashboard
             </Link>
-            <Link
-              to="/profiles"
-              style={{ color: "var(--text-dim)", textDecoration: "none" }}
-            >
+            <Link to="/profiles" className="layout-nav-link">
               Profiles
             </Link>
-            <Link
-              to="/search"
-              style={{ color: "var(--text-dim)", textDecoration: "none" }}
-            >
+            <Link to="/search" className="layout-nav-link">
               Search
             </Link>
           </nav>
         </div>
 
         {user && (
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <span
-              className={`badge badge-${user.role}`}
-              style={{ fontSize: "11px" }}
-            >
+          <div className="layout-user">
+            <span className={`badge badge-${user.role}`} style={{ fontSize: "11px" }}>
               {user.role}
             </span>
-            <Link
-              to="/account"
-              style={{ color: "var(--text-dim)", textDecoration: "none" }}
-            >
+            <Link to="/account" className="layout-username">
               @{user.username}
             </Link>
-            <button
-              onClick={handleLogout}
-              style={{
-                background: "none",
-                border: "none",
-                color: "var(--text-muted)",
-                cursor: "pointer",
-                fontFamily: "var(--font)",
-                fontSize: "12px",
-                textTransform: "uppercase",
-              }}
-            >
+            <button onClick={handleLogout} className="layout-logout">
               Logout
             </button>
           </div>
         )}
       </header>
 
-      <main style={{ flex: 1 }}>{children}</main>
+      <main className="layout-main">{children}</main>
 
-      <footer
-        style={{
-          borderTop: "1px solid var(--border)",
-          padding: "12px 32px",
-          color: "var(--text-muted)",
-          fontSize: "12px",
-          background: "var(--bg-card)",
-        }}
-      >
+      <footer className="layout-footer">
         INSIGHTA LABS+ — PROFILE INTELLIGENCE SYSTEM
       </footer>
     </div>
