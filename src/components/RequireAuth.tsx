@@ -16,6 +16,17 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
         const res = await api.me();
         setUser(res.data);
       } catch {
+        // Try refresh once before redirecting
+        try {
+          const refreshRes = await api.webRefresh();
+          if (refreshRes.ok) {
+            const res = await api.me();
+            setUser(res.data);
+            return;
+          }
+        } catch {
+          // fall through
+        }
         setUser(null);
         navigate("/login");
       } finally {
