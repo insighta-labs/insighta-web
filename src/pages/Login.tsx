@@ -5,6 +5,25 @@ import { config } from "../config";
 
 const BASE = config.apiUrl;
 
+function generateCodeVerifier(): string {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  return Array.from(array)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function deriveCodeChallenge(verifier: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(verifier);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hash));
+  return btoa(hashArray.map((b) => String.fromCharCode(b)).join(""))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
+}
+
 export function Login() {
   const { user } = useAuthStore();
   const navigate = useNavigate();
@@ -13,11 +32,14 @@ export function Login() {
     if (user) navigate("/dashboard");
   }, [user, navigate]);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const state = crypto.randomUUID().replace(/-/g, "");
     const redirectUri = `${window.location.origin}/callback`;
-    const url = `${BASE}/auth/github?state=${state}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    const verifier = generateCodeVerifier();
+    const challenge = await deriveCodeChallenge(verifier);
     sessionStorage.setItem("oauth_state", state);
+    sessionStorage.setItem("pkce_verifier", verifier);
+    const url = `${BASE}/auth/github?state=${state}&code_challenge=${encodeURIComponent(challenge)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
     window.location.href = url;
   };
 
