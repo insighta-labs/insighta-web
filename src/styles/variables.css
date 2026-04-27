@@ -1,0 +1,24 @@
+:root {
+    --bg: #0a0e1a;
+    --bg-card: #0f1629;
+    --bg-input: #0d1220;
+    --primary: #00ff88;
+    --primary-dim: #00cc6a;
+    --secondary: #1a2744;
+    --border: #1e3a5f;
+    --border-bright: #00ff88;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --error: #ff4466;
+    --warning: #ffaa00;
+    --admin-color: #ff6b35;
+
+    --radius: 4px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-green: 0 0 20px rgba(0, 255, 136, 0.1);
+
+    --font: "Courier New", "Courier", monospace;
+    --font-size: 14px;
+    --transition: 150ms ease;
+}
