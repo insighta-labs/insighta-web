@@ -28,6 +28,8 @@ export function Callback() {
 
     const storedState = sessionStorage.getItem("oauth_state");
     sessionStorage.removeItem("oauth_state");
+    const pkceVerifier = sessionStorage.getItem("pkce_verifier") || "";
+    sessionStorage.removeItem("pkce_verifier");
 
     if (!code || !state || state !== storedState) {
       navigate("/login?error=invalid_state");
@@ -37,7 +39,7 @@ export function Callback() {
     const exchange = async () => {
       try {
         const res = await fetch(
-          `${BASE}/auth/web/exchange?code=${code}&state=${state}`,
+          `${BASE}/auth/web/exchange?code=${code}&state=${state}&code_verifier=${pkceVerifier}`,
           {
             method: "POST",
             credentials: "include",
