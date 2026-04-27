@@ -79,9 +79,8 @@ export function ProfileDetail() {
   return (
     <div className="page">
       <div
+        className="flex-between-responsive"
         style={{
-          display: "flex",
-          justifyContent: "space-between",
           alignItems: "flex-start",
           marginBottom: "32px",
         }}

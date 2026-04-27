@@ -33,6 +33,8 @@ const DEFAULT_FILTERS: Filters = {
   order: "asc",
 };
 
+import "./Profiles.css";
+
 export function Profiles() {
   const { user } = useAuthStore();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,6 +49,7 @@ export function Profiles() {
   const [showCreate, setShowCreate] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const page = Number(searchParams.get("page") || "1");
@@ -165,19 +168,17 @@ export function Profiles() {
   };
 
   return (
-    <div className="page">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "24px",
-          paddingBottom: "12px",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
+    <div className="page profiles-page">
+      <div className="flex-between-responsive" style={{ marginBottom: "24px", paddingBottom: "12px", borderBottom: "1px solid var(--border)" }}>
         <h2 style={{ margin: 0, fontSize: "20px" }}>Profiles</h2>
         <div style={{ display: "flex", gap: "8px" }}>
+          <Button
+            variant="ghost"
+            className="filters-toggle"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            {showFilters ? "Hide Filters" : "Show Filters"}
+          </Button>
           <Button
             variant="ghost"
             onClick={handleExport}
@@ -306,15 +307,9 @@ export function Profiles() {
         </div>
       )}
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "220px 1fr",
-          gap: "24px",
-        }}
-      >
+      <div className={`profiles-layout ${showFilters ? "show-filters" : ""}`}>
         {/* Filters sidebar */}
-        <div className="card" style={{ alignSelf: "start" }}>
+        <div className="card profiles-sidebar">
           <div
             style={{
               fontSize: "11px",
@@ -327,83 +322,85 @@ export function Profiles() {
             Filters
           </div>
 
-          <FilterGroup label="Gender">
-            <Select
-              value={filters.gender}
-              onChange={(val) => setFilters({ ...filters, gender: val })}
-              options={[
-                { value: "", label: "All Genders" },
-                { value: "male", label: "Male" },
-                { value: "female", label: "Female" },
-              ]}
-            />
-          </FilterGroup>
-
-          <FilterGroup label="Age Group">
-            <Select
-              value={filters.age_group}
-              onChange={(val) => setFilters({ ...filters, age_group: val })}
-              options={[
-                { value: "", label: "All Ages" },
-                { value: "child", label: "Child" },
-                { value: "teenager", label: "Teenager" },
-                { value: "adult", label: "Adult" },
-                { value: "senior", label: "Senior" },
-              ]}
-            />
-          </FilterGroup>
-
-          <FilterGroup label="Country Code">
-            <input
-              type="text"
-              placeholder="e.g. NG"
-              maxLength={2}
-              value={filters.country_id}
-              onChange={(e) =>
-                handleFilterChange("country_id", e.target.value.toUpperCase())
-              }
-            />
-          </FilterGroup>
-
-          <FilterGroup label="Age Range">
-            <div style={{ display: "flex", gap: "8px" }}>
-              <input
-                type="number"
-                placeholder="Min"
-                min={0}
-                max={120}
-                value={filters.min_age}
-                onChange={(e) => handleFilterChange("min_age", e.target.value)}
+          <div className="profiles-filters">
+            <FilterGroup label="Gender">
+              <Select
+                value={filters.gender}
+                onChange={(val) => setFilters({ ...filters, gender: val })}
+                options={[
+                  { value: "", label: "All Genders" },
+                  { value: "male", label: "Male" },
+                  { value: "female", label: "Female" },
+                ]}
               />
-              <input
-                type="number"
-                placeholder="Max"
-                min={0}
-                max={120}
-                value={filters.max_age}
-                onChange={(e) => handleFilterChange("max_age", e.target.value)}
+            </FilterGroup>
+
+            <FilterGroup label="Age Group">
+              <Select
+                value={filters.age_group}
+                onChange={(val) => setFilters({ ...filters, age_group: val })}
+                options={[
+                  { value: "", label: "All Ages" },
+                  { value: "child", label: "Child" },
+                  { value: "teenager", label: "Teenager" },
+                  { value: "adult", label: "Adult" },
+                  { value: "senior", label: "Senior" },
+                ]}
               />
-            </div>
-          </FilterGroup>
+            </FilterGroup>
 
-          <FilterGroup label="Sort By">
-            <Select
-              value={filters.sort_by}
-              onChange={(val) => setFilters({ ...filters, sort_by: val })}
-              options={SORT_OPTIONS}
-            />
-          </FilterGroup>
+            <FilterGroup label="Country Code">
+              <input
+                type="text"
+                placeholder="e.g. NG"
+                maxLength={2}
+                value={filters.country_id}
+                onChange={(e) =>
+                  handleFilterChange("country_id", e.target.value.toUpperCase())
+                }
+              />
+            </FilterGroup>
 
-          <FilterGroup label="Order">
-            <Select
-              value={filters.order}
-              onChange={(val) => setFilters({ ...filters, order: val })}
-              options={[
-                { value: "asc", label: "Ascending" },
-                { value: "desc", label: "Descending" },
-              ]}
-            />
-          </FilterGroup>
+            <FilterGroup label="Age Range">
+              <div style={{ display: "flex", gap: "8px" }}>
+                <input
+                  type="number"
+                  placeholder="Min"
+                  min={0}
+                  max={120}
+                  value={filters.min_age}
+                  onChange={(e) => handleFilterChange("min_age", e.target.value)}
+                />
+                <input
+                  type="number"
+                  placeholder="Max"
+                  min={0}
+                  max={120}
+                  value={filters.max_age}
+                  onChange={(e) => handleFilterChange("max_age", e.target.value)}
+                />
+              </div>
+            </FilterGroup>
+
+            <FilterGroup label="Sort By">
+              <Select
+                value={filters.sort_by}
+                onChange={(val) => setFilters({ ...filters, sort_by: val })}
+                options={SORT_OPTIONS}
+              />
+            </FilterGroup>
+
+            <FilterGroup label="Order">
+              <Select
+                value={filters.order}
+                onChange={(val) => setFilters({ ...filters, order: val })}
+                options={[
+                  { value: "asc", label: "Ascending" },
+                  { value: "desc", label: "Descending" },
+                ]}
+              />
+            </FilterGroup>
+          </div>
 
           <button
             onClick={() => {
@@ -427,8 +424,8 @@ export function Profiles() {
           </button>
         </div>
 
-        {/* Table */}
-        <div>
+        {/* Main Content Area */}
+        <div className="profiles-main">
           {error && (
             <p className="error-text" style={{ marginBottom: "16px" }}>
               {error}
@@ -460,102 +457,108 @@ export function Profiles() {
                 {result?.total_pages}
               </div>
 
-              <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead>
-                    <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                      {[
-                        "Name",
-                        "Gender",
-                        "Age",
-                        "Country",
-                        "Prob.",
-                        "Added",
-                        "",
-                      ].map((h, i) => (
-                        <th
-                          key={i}
-                          style={{
-                            textAlign: "left",
-                            padding: "10px 16px",
-                            fontSize: "11px",
-                            color: "var(--text-muted)",
-                            textTransform: "uppercase",
-                            letterSpacing: "1px",
-                            fontWeight: "normal",
-                          }}
-                        >
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {result?.data.length === 0 ? (
-                      <tr>
-                        <td
-                          colSpan={7}
-                          style={{
-                            padding: "32px 16px",
-                            textAlign: "center",
-                            color: "var(--text-muted)",
-                          }}
-                        >
-                          No profiles match the current filters.
-                        </td>
-                      </tr>
-                    ) : (
-                      result?.data.map((p) => (
-                        <ProfileRow
-                          key={p.id}
-                          profile={p}
-                          isAdmin={user?.role === "admin"}
-                          deleting={deleteId === p.id}
-                          onDelete={() => setConfirmDeleteId(p.id)}
-                        />
-                      ))
-                    )}
-                  </tbody>
-                </table>
+              <div className="profiles-table-wrapper">
+                <div className="table-container">
+                  <div style={{ padding: 0, overflow: "hidden", minWidth: "800px" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                      <thead>
+                        <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                          {[
+                            "Name",
+                            "Gender",
+                            "Age",
+                            "Country",
+                            "Prob.",
+                            "Added",
+                            "",
+                          ].map((h, i) => (
+                            <th
+                              key={i}
+                              style={{
+                                textAlign: "left",
+                                padding: "10px 16px",
+                                fontSize: "11px",
+                                color: "var(--text-muted)",
+                                textTransform: "uppercase",
+                                letterSpacing: "1px",
+                                fontWeight: "normal",
+                              }}
+                            >
+                              {h}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {result?.data.length === 0 ? (
+                          <tr>
+                            <td
+                              colSpan={7}
+                              style={{
+                                padding: "32px 16px",
+                                textAlign: "center",
+                                color: "var(--text-muted)",
+                              }}
+                            >
+                              No profiles match the current filters.
+                            </td>
+                          </tr>
+                        ) : (
+                          result?.data.map((p) => (
+                            <ProfileRow
+                              key={p.id}
+                              profile={p}
+                              isAdmin={user?.role === "admin"}
+                              deleting={deleteId === p.id}
+                              onDelete={() => setConfirmDeleteId(p.id)}
+                            />
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
 
               {/* Pagination */}
-              <div
-                style={{
-                  display: "flex",
-                  gap: "8px",
-                  marginTop: "16px",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
-              >
-                {result?.links.prev && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => setSearchParams({ page: String(page - 1) })}
-                    style={{ fontSize: "12px", padding: "6px 12px" }}
-                  >
-                    ← Prev
-                  </Button>
-                )}
-                <span
+              <div className="profiles-pagination">
+                <div
                   style={{
-                    fontSize: "12px",
-                    color: "var(--text-muted)",
-                    padding: "0 8px",
+                    display: "flex",
+                    gap: "8px",
+                    marginTop: "16px",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
                   }}
                 >
-                  {page} / {result?.total_pages}
-                </span>
-                {result?.links.next && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => setSearchParams({ page: String(page + 1) })}
-                    style={{ fontSize: "12px", padding: "6px 12px" }}
+                  {result?.links.prev && (
+                    <Button
+                      variant="ghost"
+                      onClick={() => setSearchParams({ page: String(page - 1) })}
+                      style={{ fontSize: "12px", padding: "6px 12px" }}
+                    >
+                      ← Prev
+                    </Button>
+                  )}
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      color: "var(--text-muted)",
+                      padding: "0 8px",
+                    }}
                   >
-                    Next →
-                  </Button>
-                )}
+                    {page} / {result?.total_pages}
+                  </span>
+                  {result?.links.next && (
+                    <Button
+                      variant="ghost"
+                      onClick={() => setSearchParams({ page: String(page + 1) })}
+                      style={{ fontSize: "12px", padding: "6px 12px" }}
+                    >
+                      Next →
+                    </Button>
+                  )}
+                </div>
               </div>
             </>
           )}

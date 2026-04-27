@@ -56,7 +56,8 @@ export function Login() {
       <div
         className="card"
         style={{
-          width: "380px",
+          width: "100%",
+          maxWidth: "380px",
           textAlign: "center",
           boxShadow: "var(--shadow-green)",
           border: "1px solid var(--border-bright)",

@@ -30,14 +30,16 @@ A React + TypeScript SPA for the Profile Intelligence System. Authenticates via 
 
 ### GitHub OAuth App
 
-Create one at **GitHub → Settings → Developer Settings → OAuth Apps → New OAuth App**.
+Create one at **GitHub → Settings → Developer Settings → GitHub Apps → New GitHub App**.
 
 | Field | Value |
 | ----- | ----- |
 | Homepage URL | `http://localhost:5173` (dev) or your production URL |
-| Authorization callback URL | `http://localhost:5173/callback` (dev) or your production `/callback` |
+| Callback URL 1 | `https://your-production-domain.com/callback` |
+| Callback URL 2 | `http://localhost:5173/callback` (dev) |
+| Callback URL 3 | `http://127.0.0.1:8182/callback` (CLI) |
 
-Copy the **Client ID** and **Client Secret** into the backend's `.env` as `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`. For the CLI callback (`http://localhost:8182/callback`), add it as an additional callback URL in the same OAuth App settings.
+Copy the **Client ID** and **Client Secret** into the backend's `.env` as `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`. GitHub Apps support multiple callback URLs — add `http://127.0.0.1:8182/callback` as an additional entry for CLI use.
 
 ### Admin Access
 
