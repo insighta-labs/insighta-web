@@ -41,6 +41,7 @@ export function Button({
 
   return (
     <button
+      {...props}
       style={{
         ...styles[variant],
         opacity: disabled || loading ? 0.5 : 1,
@@ -50,10 +51,11 @@ export function Button({
         borderRadius: "var(--radius)",
         display: "inline-flex",
         alignItems: "center",
+        justifyContent: "center",
         gap: "8px",
+        ...(props.style || {}),
       }}
       disabled={disabled || loading}
-      {...props}
     >
       {loading && <span className="spinner" />}
       {children}
