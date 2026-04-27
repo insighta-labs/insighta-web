@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
 import { api } from "../lib/api";
+import { config } from "../config";
 import type { Profile, ProfileListResponse } from "../types";
 import { Button } from "../components/Button";
 import { Select } from "../components/Select";
@@ -51,7 +52,6 @@ export function Profiles() {
   const page = Number(searchParams.get("page") || "1");
 
   const refresh = useCallback(() => setRefreshTrigger((v) => v + 1), []);
-
 
   useEffect(() => {
     let ignore = false;
@@ -127,11 +127,41 @@ export function Profiles() {
     }
   };
 
-  const handleExport = () => {
-    const params: Record<string, string> = {};
+  const handleExport = async () => {
+    const params: Record<string, string> = { format: "csv" };
     if (filters.gender) params.gender = filters.gender;
     if (filters.country_id) params.country_id = filters.country_id;
-    window.open(api.profiles.exportUrl(params), "_blank");
+    if (filters.age_group) params.age_group = filters.age_group;
+    if (filters.min_age) params.min_age = filters.min_age;
+    if (filters.max_age) params.max_age = filters.max_age;
+    const qs = new URLSearchParams(params).toString();
+    try {
+      const res = await fetch(`${config.apiUrl}/api/profiles/export?${qs}`, {
+        method: "GET",
+        credentials: "include",
+        headers: { "X-API-Version": "1" },
+      });
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        throw new Error(
+          (json as { message?: string }).message || "Export failed",
+        );
+      }
+      const blob = await res.blob();
+      const disposition = res.headers.get("content-disposition") || "";
+      const match = disposition.match(/filename="([^"]+)"/);
+      const filename = match?.[1] || "profiles_export.csv";
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "Export failed");
+    }
   };
 
   return (
@@ -168,7 +198,10 @@ export function Profiles() {
 
       {/* Create modal */}
       {showCreate && (
-        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setShowCreate(false)}>
+        <div
+          className="modal-overlay"
+          onClick={(e) => e.target === e.currentTarget && setShowCreate(false)}
+        >
           <div className="modal-content">
             <h3 style={{ marginBottom: "16px", fontSize: "14px" }}>
               Create Profile
@@ -215,13 +248,37 @@ export function Profiles() {
 
       {/* Delete confirmation modal */}
       {confirmDeleteId && (
-        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setConfirmDeleteId(null)}>
-          <div className="modal-content" style={{ border: "1px solid var(--error)", boxShadow: "0 0 20px rgba(255, 68, 102, 0.1)" }}>
-            <h3 style={{ marginBottom: "12px", fontSize: "14px", color: "var(--error)" }}>
+        <div
+          className="modal-overlay"
+          onClick={(e) =>
+            e.target === e.currentTarget && setConfirmDeleteId(null)
+          }
+        >
+          <div
+            className="modal-content"
+            style={{
+              border: "1px solid var(--error)",
+              boxShadow: "0 0 20px rgba(255, 68, 102, 0.1)",
+            }}
+          >
+            <h3
+              style={{
+                marginBottom: "12px",
+                fontSize: "14px",
+                color: "var(--error)",
+              }}
+            >
               Confirm Deletion
             </h3>
-            <p style={{ marginBottom: "20px", fontSize: "13px", color: "var(--text-dim)" }}>
-              Are you sure you want to permanently delete this profile? This action cannot be undone.
+            <p
+              style={{
+                marginBottom: "20px",
+                fontSize: "13px",
+                color: "var(--text-dim)",
+              }}
+            >
+              Are you sure you want to permanently delete this profile? This
+              action cannot be undone.
             </p>
             <div
               style={{
