@@ -35,7 +35,7 @@
     overflow-y: auto;
     background: var(--bg-card);
     border-radius: var(--radius);
-    border: 1px solid var(--border);
+    border: 3px solid var(--border);
     margin-bottom: 16px;
   }
 
@@ -89,4 +89,8 @@
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     width: 100%;
   }
+}
+
+.profiles-table-inner {
+  min-width: 800px;
 }

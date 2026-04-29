@@ -10,7 +10,7 @@ export function Search() {
   const [result, setResult] = useState<ProfileListResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSearch = async (e?: React.FormEvent) => {
+  const handleSearch = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     if (!query.trim()) return;
 
@@ -29,23 +29,42 @@ export function Search() {
   return (
     <div className="page">
       <h2 className="page-title">Intelligence Search</h2>
-      <p style={{ color: "var(--text-muted)", marginBottom: "24px" }}>
+      <p
+        style={{
+          color: "var(--text-muted)",
+          marginBottom: "clamp(24px, 4vw, 32px)",
+          fontSize: "clamp(14px, 3vw, 16px)",
+        }}
+      >
         Enter a natural language query (e.g. "men from Nigeria", "teenagers").
       </p>
 
       <form
         onSubmit={handleSearch}
         className="flex-between-responsive"
-        style={{ marginBottom: "32px" }}
+        style={{ marginBottom: "clamp(32px, 5vw, 48px)" }}
       >
         <input
           type="text"
+          className="search-input"
           placeholder="Search profiles..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          style={{ flex: 1, fontSize: "16px", width: "100%" }}
+          style={{
+            flex: 1,
+            fontSize: "clamp(14px, 3vw, 18px)",
+            width: "100%",
+            padding: "clamp(12px, 2vw, 16px)",
+          }}
         />
-        <Button loading={loading} onClick={handleSearch} style={{ width: "100%", maxWidth: "120px" }}>
+        <Button
+          loading={loading}
+          style={{
+            width: "100%",
+            maxWidth: "fit-content",
+            padding: "clamp(12px, 2vw, 16px) clamp(16px, 3vw, 32px)",
+          }}
+        >
           Search
         </Button>
       </form>
@@ -56,29 +75,35 @@ export function Search() {
         <>
           <div
             style={{
-              fontSize: "12px",
+              fontSize: "clamp(12px, 2vw, 14px)",
               color: "var(--text-muted)",
-              marginBottom: "12px",
+              marginBottom: "16px",
+              fontWeight: "bold",
+              textTransform: "uppercase",
+              letterSpacing: "1px",
             }}
           >
             Found {result.total} results
           </div>
           <div className="table-container">
-            <div className="card" style={{ padding: 0, overflow: "hidden", minWidth: "600px" }}>
+            <div
+              className="card"
+              style={{ padding: 0, overflow: "hidden", minWidth: "600px" }}
+            >
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                  <tr style={{ borderBottom: "3px solid var(--border)" }}>
                     {["Name", "Gender", "Age", "Country"].map((h) => (
                       <th
                         key={h}
                         style={{
                           textAlign: "left",
-                          padding: "10px 16px",
-                          fontSize: "11px",
+                          padding: "12px 16px",
+                          fontSize: "clamp(12px, 2vw, 14px)",
                           color: "var(--text-muted)",
                           textTransform: "uppercase",
-                          letterSpacing: "1px",
-                          fontWeight: "normal",
+                          letterSpacing: "2px",
+                          fontWeight: "bold",
                         }}
                       >
                         {h}
@@ -92,21 +117,29 @@ export function Search() {
                       <td
                         colSpan={4}
                         style={{
-                          padding: "32px 16px",
+                          padding: "48px 16px",
                           textAlign: "center",
                           color: "var(--text-muted)",
+                          fontSize: "clamp(14px, 3vw, 16px)",
                         }}
                       >
                         No profiles found.
                       </td>
                     </tr>
                   ) : (
-                    result.data.map((p) => (
+                    result.data.map((p, i) => (
                       <tr
                         key={p.id}
-                        style={{ borderBottom: "1px solid var(--border)" }}
+                        className={`animate-fade-up animate-stagger-${(i % 5) + 1}`}
+                        style={{ borderBottom: "2px solid var(--border)" }}
                       >
-                        <td style={{ padding: "10px 16px" }}>
+                        <td
+                          style={{
+                            padding: "16px",
+                            fontSize: "16px",
+                            fontWeight: "bold",
+                          }}
+                        >
                           <Link
                             to={`/profiles/${p.id}`}
                             style={{
@@ -117,13 +150,31 @@ export function Search() {
                             {p.name}
                           </Link>
                         </td>
-                        <td style={{ padding: "10px 16px", color: "var(--text-dim)" }}>
+                        <td
+                          style={{
+                            padding: "16px",
+                            fontSize: "16px",
+                            color: "var(--text-dim)",
+                          }}
+                        >
                           {p.gender}
                         </td>
-                        <td style={{ padding: "10px 16px", color: "var(--text-dim)" }}>
+                        <td
+                          style={{
+                            padding: "16px",
+                            fontSize: "16px",
+                            color: "var(--text-dim)",
+                          }}
+                        >
                           {p.age}
                         </td>
-                        <td style={{ padding: "10px 16px", color: "var(--text-dim)" }}>
+                        <td
+                          style={{
+                            padding: "16px",
+                            fontSize: "16px",
+                            color: "var(--text-dim)",
+                          }}
+                        >
                           {p.country_id}
                         </td>
                       </tr>

@@ -10,7 +10,6 @@ import { RequireAuth } from "./components/RequireAuth";
 import { Layout } from "./components/Layout";
 import "./styles/global.css";
 
-
 export default function App() {
   return (
     <BrowserRouter>

@@ -67,15 +67,36 @@ export function Dashboard() {
   }
 
   if (error) {
-    const isRateLimit = error.toLowerCase().includes("too many requests") || error.includes("429");
+    const isRateLimit =
+      error.toLowerCase().includes("too many requests") ||
+      error.includes("429");
     return (
       <div className="page">
-        <div className="card" style={{ border: isRateLimit ? "1px solid var(--warning)" : "1px solid var(--error)", padding: "40px", textAlign: "center" }}>
-           <h3 style={{ color: isRateLimit ? "var(--warning)" : "var(--error)", marginBottom: "16px" }}>
-             {isRateLimit ? "Rate Limit Exceeded" : "System Error"}
-           </h3>
-           <p style={{ color: "var(--text-dim)", marginBottom: "24px" }}>{error}</p>
-           <Button onClick={() => window.location.reload()}>Retry Connection</Button>
+        <div
+          className="card"
+          style={{
+            border: isRateLimit
+              ? "3px solid var(--warning)"
+              : "3px solid var(--error)",
+            padding: "40px",
+            textAlign: "center",
+            boxShadow: "6px 6px 0px #000",
+          }}
+        >
+          <h3
+            style={{
+              color: isRateLimit ? "var(--warning)" : "var(--error)",
+              marginBottom: "16px",
+            }}
+          >
+            {isRateLimit ? "Rate Limit Exceeded" : "System Error"}
+          </h3>
+          <p style={{ color: "var(--text-dim)", marginBottom: "24px" }}>
+            {error}
+          </p>
+          <Button onClick={() => window.location.reload()}>
+            Retry Connection
+          </Button>
         </div>
       </div>
     );
@@ -83,20 +104,39 @@ export function Dashboard() {
 
   return (
     <div className="page">
-      <div className="flex-between-responsive" style={{ marginBottom: "24px", paddingBottom: "12px", borderBottom: "1px solid var(--border)" }}>
-        <h2 style={{ margin: 0, fontSize: "20px" }}>Dashboard</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "32px",
+          paddingBottom: "16px",
+          borderBottom: "3px solid var(--border)",
+        }}
+      >
+        <h2
+          style={{
+            margin: 0,
+            fontSize: "clamp(24px, 5vw, 32px)",
+            letterSpacing: "clamp(2px, 1vw, 4px)",
+          }}
+        >
+          Dashboard
+        </h2>
         {user?.role === "admin" && (
           <Link
             to="/profiles?create=1"
             style={{
-              padding: "6px 16px",
-              border: "1px solid var(--primary)",
+              padding: "clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px)",
+              border: "3px solid var(--primary)",
               color: "var(--primary)",
               borderRadius: "var(--radius)",
-              fontSize: "12px",
-              letterSpacing: "1px",
+              fontSize: "clamp(12px, 2vw, 14px)",
+              letterSpacing: "clamp(1px, 0.5vw, 2px)",
+              fontWeight: "bold",
               textDecoration: "none",
               textTransform: "uppercase",
+              whiteSpace: "nowrap",
             }}
           >
             + New Profile
@@ -105,14 +145,23 @@ export function Dashboard() {
       </div>
 
       {/* Metric cards */}
-      <div className="grid-dashboard" style={{ marginBottom: "32px" }}>
-        <MetricCard label="Total Profiles" value={metrics!.total} />
+      <div
+        className="grid-dashboard"
+        style={{ marginBottom: "clamp(32px, 6vw, 48px)" }}
+      >
         <MetricCard
+          className="animate-fade-up animate-stagger-1"
+          label="Total Profiles"
+          value={metrics!.total}
+        />
+        <MetricCard
+          className="animate-fade-up animate-stagger-2"
           label="Male"
           value={metrics!.male}
           accent="var(--primary)"
         />
         <MetricCard
+          className="animate-fade-up animate-stagger-3"
           label="Female"
           value={metrics!.female}
           accent="var(--warning)"
@@ -121,37 +170,59 @@ export function Dashboard() {
 
       {/* Recent profiles */}
       <div className="card">
-        <div className="flex-between-responsive" style={{ marginBottom: "16px" }}>
-          <h3 style={{ margin: 0, fontSize: "14px", color: "var(--text-dim)" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "24px",
+          }}
+        >
+          <h3
+            style={{
+              margin: 0,
+              fontSize: "clamp(16px, 3vw, 20px)",
+              color: "var(--text-dim)",
+              letterSpacing: "2px",
+            }}
+          >
             RECENTLY ADDED
           </h3>
           <Link
             to="/profiles"
             style={{
-              fontSize: "12px",
+              fontSize: "clamp(14px, 2.5vw, 16px)",
               color: "var(--primary)",
+              fontWeight: "bold",
               textDecoration: "none",
+              whiteSpace: "nowrap",
             }}
           >
-            View all →
+            View all
           </Link>
         </div>
 
         <div className="table-container">
-          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "600px" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              minWidth: "600px",
+            }}
+          >
             <thead>
-              <tr style={{ borderBottom: "1px solid var(--border)" }}>
+              <tr style={{ borderBottom: "3px solid var(--border)" }}>
                 {["Name", "Gender", "Country", "Added"].map((h) => (
                   <th
                     key={h}
                     style={{
                       textAlign: "left",
-                      padding: "8px 12px",
-                      fontSize: "11px",
+                      padding: "12px 16px",
+                      fontSize: "clamp(12px, 2vw, 14px)",
                       color: "var(--text-muted)",
                       textTransform: "uppercase",
-                      letterSpacing: "1px",
-                      fontWeight: "normal",
+                      letterSpacing: "2px",
+                      fontWeight: "bold",
                     }}
                   >
                     {h}
@@ -163,27 +234,48 @@ export function Dashboard() {
               {metrics!.recent.map((p) => (
                 <tr
                   key={p.id}
-                  style={{ borderBottom: "1px solid var(--border)" }}
+                  style={{ borderBottom: "2px solid var(--border)" }}
                 >
-                  <td style={{ padding: "10px 12px" }}>
+                  <td
+                    style={{
+                      padding: "16px",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                    }}
+                  >
                     <Link
                       to={`/profiles/${p.id}`}
-                      style={{ color: "var(--primary)", textDecoration: "none" }}
+                      style={{
+                        color: "var(--primary)",
+                        textDecoration: "none",
+                      }}
                     >
                       {p.name}
                     </Link>
                   </td>
-                  <td style={{ padding: "10px 12px", color: "var(--text-dim)" }}>
+                  <td
+                    style={{
+                      padding: "16px",
+                      fontSize: "16px",
+                      color: "var(--text-dim)",
+                    }}
+                  >
                     {p.gender}
                   </td>
-                  <td style={{ padding: "10px 12px", color: "var(--text-dim)" }}>
+                  <td
+                    style={{
+                      padding: "16px",
+                      fontSize: "16px",
+                      color: "var(--text-dim)",
+                    }}
+                  >
                     {p.country_name}
                   </td>
                   <td
                     style={{
-                      padding: "10px 12px",
+                      padding: "16px",
                       color: "var(--text-muted)",
-                      fontSize: "12px",
+                      fontSize: "14px",
                     }}
                   >
                     {new Date(p.created_at).toLocaleDateString()}
@@ -202,30 +294,36 @@ function MetricCard({
   label,
   value,
   accent = "var(--text)",
+  className = "",
 }: {
   label: string;
   value: number;
   accent?: string;
+  className?: string;
 }) {
   return (
-    <div className="card" style={{ textAlign: "center" }}>
+    <div
+      className={`card ${className}`}
+      style={{ textAlign: "center", padding: "clamp(24px, 5vw, 40px)" }}
+    >
       <div
         style={{
-          fontSize: "36px",
+          fontSize: "clamp(48px, 10vw, 64px)",
           fontWeight: "bold",
           color: accent,
           lineHeight: 1,
-          marginBottom: "8px",
+          marginBottom: "12px",
         }}
       >
         {value.toLocaleString()}
       </div>
       <div
         style={{
-          fontSize: "11px",
+          fontSize: "clamp(14px, 3vw, 18px)",
           color: "var(--text-muted)",
           textTransform: "uppercase",
-          letterSpacing: "1px",
+          letterSpacing: "3px",
+          fontWeight: "bold",
         }}
       >
         {label}

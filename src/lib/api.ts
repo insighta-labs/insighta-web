@@ -117,25 +117,19 @@ export const api = {
   profiles: {
     list: (params: Record<string, string>) => {
       const qs = new URLSearchParams(params).toString();
-      return request<ProfileListResponse>(
-        `/api/profiles?${qs}`,
-      );
+      return request<ProfileListResponse>(`/api/profiles?${qs}`);
     },
     get: (id: string) =>
-      request<{ status: string; data: Profile }>(
-        `/api/profiles/${id}`,
-      ),
+      request<{ status: string; data: Profile }>(`/api/profiles/${id}`),
     search: (params: Record<string, string>) => {
       const qs = new URLSearchParams(params).toString();
-      return request<ProfileListResponse>(
-        `/api/profiles/search?${qs}`,
-      );
+      return request<ProfileListResponse>(`/api/profiles/search?${qs}`);
     },
     create: (name: string) =>
-      request<{ status: string; data: Profile }>(
-        "/api/profiles",
-        { method: "POST", body: { name } },
-      ),
+      request<{ status: string; data: Profile }>("/api/profiles", {
+        method: "POST",
+        body: { name },
+      }),
     delete: (id: string) =>
       request<void>(`/api/profiles/${id}`, { method: "DELETE" }),
     exportUrl: (params: Record<string, string>) => {
