@@ -13,7 +13,13 @@ interface SelectProps {
   style?: React.CSSProperties;
 }
 
-export function Select({ value, options, onChange, placeholder, style }: SelectProps) {
+export function Select({
+  value,
+  options,
+  onChange,
+  placeholder,
+  style,
+}: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -21,7 +27,10 @@ export function Select({ value, options, onChange, placeholder, style }: SelectP
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     }
@@ -43,37 +52,59 @@ export function Select({ value, options, onChange, placeholder, style }: SelectP
         onClick={() => setIsOpen(!isOpen)}
         style={{
           background: "var(--bg-input)",
-          border: isOpen ? "1px solid var(--primary)" : "1px solid var(--border)",
+          border: isOpen
+            ? "3px solid var(--primary)"
+            : "3px solid var(--border)",
           color: selectedOption ? "var(--text)" : "var(--text-muted)",
-          padding: "8px 12px",
-          paddingRight: "36px",
+          padding: "clamp(10px, 2vw, 14px) clamp(12px, 2vw, 16px)",
+          paddingRight: "40px",
           borderRadius: "var(--radius)",
           cursor: "pointer",
-          fontSize: "var(--font-size)",
+          fontSize: "clamp(13px, 2.5vw, 15px)",
           fontFamily: "var(--font)",
+          fontWeight: "bold",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           transition: "all var(--transition)",
-          boxShadow: isOpen ? "0 0 10px rgba(0, 255, 136, 0.2)" : "inset 0 1px 3px rgba(0,0,0,0.2)",
+          boxShadow: isOpen ? "4px 4px 0px #000" : "var(--shadow)",
           position: "relative",
           userSelect: "none",
+          textTransform: "uppercase",
+          letterSpacing: "1px",
         }}
       >
-        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+        <span
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
           {selectedOption ? selectedOption.label : placeholder || "Select..."}
         </span>
-        
+
         {/* Arrow */}
-        <div style={{
-          position: "absolute",
-          right: "12px",
-          top: "50%",
-          transform: `translateY(-50%) rotate(${isOpen ? "180deg" : "0deg"})`,
-          transition: "transform var(--transition)",
-          display: "flex"
-        }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div
+          style={{
+            position: "absolute",
+            right: "12px",
+            top: "50%",
+            transform: `translateY(-50%) rotate(${isOpen ? "180deg" : "0deg"})`,
+            transition: "transform var(--transition)",
+            display: "flex",
+          }}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--primary)"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </div>
@@ -84,14 +115,14 @@ export function Select({ value, options, onChange, placeholder, style }: SelectP
         <div
           style={{
             position: "absolute",
-            top: "calc(100% + 4px)",
+            top: "calc(100% + 6px)",
             left: 0,
             right: 0,
             background: "var(--bg-card)",
-            border: "1px solid var(--primary)",
+            border: "3px solid var(--primary)",
             borderRadius: "var(--radius)",
             zIndex: 2000,
-            boxShadow: "0 10px 25px rgba(0,0,0,0.5)",
+            boxShadow: "6px 6px 0px #000",
             maxHeight: "240px",
             overflowY: "auto",
             animation: "selectFadeIn 150ms ease",
@@ -105,21 +136,28 @@ export function Select({ value, options, onChange, placeholder, style }: SelectP
                 setIsOpen(false);
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "var(--secondary)";
+                e.currentTarget.style.background = "rgba(0, 0, 0, 0.2)";
                 e.currentTarget.style.color = "var(--primary)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.color = opt.value === value ? "var(--primary)" : "var(--text)";
+                e.currentTarget.style.color =
+                  opt.value === value ? "var(--primary)" : "var(--text)";
               }}
               style={{
-                padding: "8px 12px",
+                padding: "clamp(10px, 2vw, 14px) clamp(12px, 2vw, 16px)",
                 cursor: "pointer",
-                fontSize: "13px",
+                fontSize: "clamp(13px, 2.5vw, 15px)",
+                fontWeight: "bold",
                 color: opt.value === value ? "var(--primary)" : "var(--text)",
-                background: opt.value === value ? "rgba(0, 255, 136, 0.05)" : "transparent",
+                background: "transparent",
                 transition: "all 100ms ease",
-                borderLeft: opt.value === value ? "2px solid var(--primary)" : "2px solid transparent",
+                borderLeft:
+                  opt.value === value
+                    ? "4px solid var(--primary)"
+                    : "4px solid transparent",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
               }}
             >
               {opt.label}

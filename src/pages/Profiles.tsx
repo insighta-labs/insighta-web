@@ -169,8 +169,16 @@ export function Profiles() {
 
   return (
     <div className="page profiles-page">
-      <div className="flex-between-responsive" style={{ marginBottom: "24px", paddingBottom: "12px", borderBottom: "1px solid var(--border)" }}>
-        <h2 style={{ margin: 0, fontSize: "20px" }}>Profiles</h2>
+      <div
+        className="flex-between-responsive"
+        style={{ marginBottom: "clamp(24px, 4vw, 32px)" }}
+      >
+        <h2
+          className="page-title"
+          style={{ margin: 0, borderBottom: "none", paddingBottom: 0 }}
+        >
+          Profiles
+        </h2>
         <div style={{ display: "flex", gap: "8px" }}>
           <Button
             variant="ghost"
@@ -189,7 +197,10 @@ export function Profiles() {
           {user?.role === "admin" && (
             <Button
               onClick={() => setShowCreate(true)}
-              style={{ fontSize: "12px" }}
+              style={{
+                fontSize: "clamp(12px, 2vw, 14px)",
+                padding: "clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px)",
+              }}
             >
               + New Profile
             </Button>
@@ -204,7 +215,12 @@ export function Profiles() {
           onClick={(e) => e.target === e.currentTarget && setShowCreate(false)}
         >
           <div className="modal-content">
-            <h3 style={{ marginBottom: "16px", fontSize: "14px" }}>
+            <h3
+              style={{
+                marginBottom: "24px",
+                fontSize: "clamp(18px, 3vw, 22px)",
+              }}
+            >
               Create Profile
             </h3>
             <input
@@ -214,32 +230,34 @@ export function Profiles() {
               onChange={(e) => setCreateName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleCreate()}
               autoFocus
-              style={{ marginBottom: "12px" }}
+              style={{
+                marginBottom: "16px",
+                fontSize: "clamp(14px, 2.5vw, 16px)",
+                padding: "clamp(12px, 2vw, 16px)",
+              }}
             />
             {createError && (
-              <p className="error-text" style={{ marginBottom: "12px" }}>
+              <p
+                className="error-text"
+                style={{
+                  marginBottom: "16px",
+                  fontSize: "clamp(14px, 2.5vw, 16px)",
+                }}
+              >
                 {createError}
               </p>
             )}
             <div
               style={{
                 display: "flex",
-                gap: "8px",
+                gap: "12px",
                 justifyContent: "flex-end",
               }}
             >
-              <Button
-                variant="ghost"
-                onClick={() => setShowCreate(false)}
-                style={{ fontSize: "12px" }}
-              >
+              <Button variant="ghost" onClick={() => setShowCreate(false)}>
                 Cancel
               </Button>
-              <Button
-                loading={creating}
-                onClick={handleCreate}
-                style={{ fontSize: "12px" }}
-              >
+              <Button loading={creating} onClick={handleCreate}>
                 Create
               </Button>
             </div>
@@ -258,14 +276,14 @@ export function Profiles() {
           <div
             className="modal-content"
             style={{
-              border: "1px solid var(--error)",
-              boxShadow: "0 0 20px rgba(255, 68, 102, 0.1)",
+              border: "3px solid var(--error)",
+              boxShadow: "6px 6px 0px #000",
             }}
           >
             <h3
               style={{
-                marginBottom: "12px",
-                fontSize: "14px",
+                marginBottom: "16px",
+                fontSize: "clamp(18px, 3vw, 22px)",
                 color: "var(--error)",
               }}
             >
@@ -273,8 +291,8 @@ export function Profiles() {
             </h3>
             <p
               style={{
-                marginBottom: "20px",
-                fontSize: "13px",
+                marginBottom: "24px",
+                fontSize: "clamp(14px, 2.5vw, 16px)",
                 color: "var(--text-dim)",
               }}
             >
@@ -284,22 +302,14 @@ export function Profiles() {
             <div
               style={{
                 display: "flex",
-                gap: "8px",
+                gap: "12px",
                 justifyContent: "flex-end",
               }}
             >
-              <Button
-                variant="ghost"
-                onClick={() => setConfirmDeleteId(null)}
-                style={{ fontSize: "12px" }}
-              >
+              <Button variant="ghost" onClick={() => setConfirmDeleteId(null)}>
                 Cancel
               </Button>
-              <Button
-                variant="danger"
-                onClick={handleDelete}
-                style={{ fontSize: "12px" }}
-              >
+              <Button variant="danger" onClick={handleDelete}>
                 Delete
               </Button>
             </div>
@@ -312,11 +322,14 @@ export function Profiles() {
         <div className="card profiles-sidebar">
           <div
             style={{
-              fontSize: "11px",
+              fontSize: "clamp(14px, 2.5vw, 18px)",
               color: "var(--text-muted)",
               textTransform: "uppercase",
-              letterSpacing: "1px",
-              marginBottom: "16px",
+              letterSpacing: "3px",
+              marginBottom: "24px",
+              fontWeight: "bold",
+              borderBottom: "3px solid var(--border)",
+              paddingBottom: "12px",
             }}
           >
             Filters
@@ -369,7 +382,9 @@ export function Profiles() {
                   min={0}
                   max={120}
                   value={filters.min_age}
-                  onChange={(e) => handleFilterChange("min_age", e.target.value)}
+                  onChange={(e) =>
+                    handleFilterChange("min_age", e.target.value)
+                  }
                 />
                 <input
                   type="number"
@@ -377,7 +392,9 @@ export function Profiles() {
                   min={0}
                   max={120}
                   value={filters.max_age}
-                  onChange={(e) => handleFilterChange("max_age", e.target.value)}
+                  onChange={(e) =>
+                    handleFilterChange("max_age", e.target.value)
+                  }
                 />
               </div>
             </FilterGroup>
@@ -402,26 +419,16 @@ export function Profiles() {
             </FilterGroup>
           </div>
 
-          <button
+          <Button
+            variant="ghost"
             onClick={() => {
               setFilters(DEFAULT_FILTERS);
               setSearchParams({ page: "1" });
             }}
-            style={{
-              width: "100%",
-              marginTop: "8px",
-              padding: "6px",
-              background: "none",
-              border: "1px solid var(--border)",
-              color: "var(--text-muted)",
-              borderRadius: "var(--radius)",
-              cursor: "pointer",
-              fontSize: "12px",
-              fontFamily: "var(--font)",
-            }}
+            style={{ width: "100%", marginTop: "16px" }}
           >
-            Reset filters
-          </button>
+            Reset Filters
+          </Button>
         </div>
 
         {/* Main Content Area */}
@@ -459,10 +466,12 @@ export function Profiles() {
 
               <div className="profiles-table-wrapper">
                 <div className="table-container">
-                  <div style={{ padding: 0, overflow: "hidden", minWidth: "800px" }}>
-                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <div className="profiles-table-inner">
+                    <table
+                      style={{ width: "100%", borderCollapse: "collapse" }}
+                    >
                       <thead>
-                        <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                        <tr style={{ borderBottom: "2px solid var(--border)" }}>
                           {[
                             "Name",
                             "Gender",
@@ -476,12 +485,12 @@ export function Profiles() {
                               key={i}
                               style={{
                                 textAlign: "left",
-                                padding: "10px 16px",
-                                fontSize: "11px",
+                                padding: "12px 16px",
+                                fontSize: "clamp(12px, 2vw, 14px)",
                                 color: "var(--text-muted)",
                                 textTransform: "uppercase",
-                                letterSpacing: "1px",
-                                fontWeight: "normal",
+                                letterSpacing: "2px",
+                                fontWeight: "bold",
                               }}
                             >
                               {h}
@@ -495,18 +504,20 @@ export function Profiles() {
                             <td
                               colSpan={7}
                               style={{
-                                padding: "32px 16px",
+                                padding: "48px 16px",
                                 textAlign: "center",
                                 color: "var(--text-muted)",
+                                fontSize: "clamp(14px, 3vw, 16px)",
                               }}
                             >
                               No profiles match the current filters.
                             </td>
                           </tr>
                         ) : (
-                          result?.data.map((p) => (
+                          result?.data.map((p, i) => (
                             <ProfileRow
                               key={p.id}
+                              index={i}
                               profile={p}
                               isAdmin={user?.role === "admin"}
                               deleting={deleteId === p.id}
@@ -534,10 +545,12 @@ export function Profiles() {
                   {result?.links.prev && (
                     <Button
                       variant="ghost"
-                      onClick={() => setSearchParams({ page: String(page - 1) })}
+                      onClick={() =>
+                        setSearchParams({ page: String(page - 1) })
+                      }
                       style={{ fontSize: "12px", padding: "6px 12px" }}
                     >
-                      ← Prev
+                      Prev
                     </Button>
                   )}
                   <span
@@ -552,10 +565,12 @@ export function Profiles() {
                   {result?.links.next && (
                     <Button
                       variant="ghost"
-                      onClick={() => setSearchParams({ page: String(page + 1) })}
+                      onClick={() =>
+                        setSearchParams({ page: String(page + 1) })
+                      }
                       style={{ fontSize: "12px", padding: "6px 12px" }}
                     >
-                      Next →
+                      Next
                     </Button>
                   )}
                 </div>
@@ -573,26 +588,35 @@ function ProfileRow({
   isAdmin,
   deleting,
   onDelete,
+  index = 0,
 }: {
   profile: Profile;
   isAdmin: boolean;
   deleting: boolean;
   onDelete: () => void;
+  index?: number;
 }) {
+  const staggerClass = `animate-stagger-${(index % 5) + 1}`;
   return (
     <tr
+      className={`animate-fade-up ${staggerClass}`}
       style={{
-        borderBottom: "1px solid var(--border)",
-        transition: "background var(--transition)",
+        borderBottom: "2px solid var(--border)",
+        borderLeft: "2px solid transparent",
+        transition: "all var(--transition)",
       }}
-      onMouseEnter={(e) =>
-        ((e.currentTarget as HTMLElement).style.background = "var(--secondary)")
-      }
-      onMouseLeave={(e) =>
-        ((e.currentTarget as HTMLElement).style.background = "")
-      }
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.background = "rgba(0, 0, 0, 0.2)";
+        el.style.borderLeftColor = "var(--primary)";
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.background = "";
+        el.style.borderLeftColor = "transparent";
+      }}
     >
-      <td style={{ padding: "10px 16px" }}>
+      <td style={{ padding: "16px", fontSize: "16px", fontWeight: "bold" }}>
         <Link
           to={`/profiles/${profile.id}`}
           style={{ color: "var(--primary)", textDecoration: "none" }}
@@ -600,40 +624,46 @@ function ProfileRow({
           {profile.name}
         </Link>
       </td>
-      <td style={{ padding: "10px 16px", color: "var(--text-dim)" }}>
+      <td
+        style={{ padding: "16px", fontSize: "16px", color: "var(--text-dim)" }}
+      >
         {profile.gender}
       </td>
-      <td style={{ padding: "10px 16px", color: "var(--text-dim)" }}>
+      <td
+        style={{ padding: "16px", fontSize: "16px", color: "var(--text-dim)" }}
+      >
         {profile.age}{" "}
-        <span style={{ color: "var(--text-muted)", fontSize: "11px" }}>
+        <span style={{ color: "var(--text-muted)", fontSize: "14px" }}>
           ({profile.age_group})
         </span>
       </td>
-      <td style={{ padding: "10px 16px", color: "var(--text-dim)" }}>
+      <td
+        style={{ padding: "16px", fontSize: "16px", color: "var(--text-dim)" }}
+      >
         {profile.country_name}{" "}
-        <span style={{ color: "var(--text-muted)", fontSize: "11px" }}>
+        <span style={{ color: "var(--text-muted)", fontSize: "14px" }}>
           {profile.country_id}
         </span>
       </td>
       <td
         style={{
-          padding: "10px 16px",
+          padding: "16px",
           color: "var(--text-muted)",
-          fontSize: "12px",
+          fontSize: "14px",
         }}
       >
         {(profile.gender_probability * 100).toFixed(0)}%
       </td>
       <td
         style={{
-          padding: "10px 16px",
+          padding: "16px",
           color: "var(--text-muted)",
-          fontSize: "12px",
+          fontSize: "14px",
         }}
       >
         {new Date(profile.created_at).toLocaleDateString()}
       </td>
-      <td style={{ padding: "10px 16px" }}>
+      <td style={{ padding: "16px" }}>
         {isAdmin && (
           <button
             onClick={onDelete}
@@ -643,8 +673,10 @@ function ProfileRow({
               border: "none",
               color: deleting ? "var(--text-muted)" : "var(--error)",
               cursor: deleting ? "not-allowed" : "pointer",
-              fontSize: "12px",
+              fontSize: "14px",
+              fontWeight: "bold",
               fontFamily: "var(--font)",
+              textTransform: "uppercase",
               opacity: deleting ? 0.5 : 1,
             }}
           >
@@ -667,11 +699,12 @@ function FilterGroup({
     <div style={{ marginBottom: "16px" }}>
       <div
         style={{
-          fontSize: "11px",
+          fontSize: "clamp(12px, 2vw, 14px)",
           color: "var(--text-muted)",
-          marginBottom: "6px",
+          marginBottom: "8px",
           textTransform: "uppercase",
-          letterSpacing: "0.5px",
+          letterSpacing: "1px",
+          fontWeight: "bold",
         }}
       >
         {label}

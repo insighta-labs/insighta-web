@@ -22,31 +22,38 @@ export function Account() {
   if (!user) return null;
 
   return (
-    <div className="page" style={{ maxWidth: "600px", margin: "0 auto", width: "100%" }}>
+    <div
+      className="page"
+      style={{ maxWidth: "600px", margin: "0 auto", width: "100%" }}
+    >
       <h2 className="page-title">Identity & Account</h2>
 
-      <div className="card" style={{ padding: "32px" }}>
+      <div className="card" style={{ padding: "clamp(32px, 6vw, 48px)" }}>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "16px",
-            marginBottom: "32px",
+            gap: "20px",
+            marginBottom: "clamp(32px, 5vw, 48px)",
           }}
         >
           <div
             style={{
-              width: "80px",
-              height: "80px",
-              borderRadius: "50%",
+              width: "clamp(80px, 15vw, 110px)",
+              height: "clamp(80px, 15vw, 110px)",
+              borderRadius: "var(--radius)",
               background: "var(--secondary)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "32px",
+              fontSize: "clamp(36px, 8vw, 48px)",
               color: "var(--primary)",
-              border: "2px solid var(--border-bright)",
+              border: "3px solid var(--border)",
+              boxShadow: "var(--shadow)",
+              fontFamily: "var(--font-heading)",
+              fontWeight: "bold",
+              textShadow: "2px 2px 0px #000",
             }}
           >
             {user.username[0].toUpperCase()}
@@ -54,23 +61,28 @@ export function Account() {
           <div style={{ textAlign: "center" }}>
             <div
               style={{
-                fontSize: "24px",
+                fontSize: "clamp(28px, 6vw, 36px)",
                 fontWeight: "bold",
                 color: "var(--text)",
+                fontFamily: "var(--font-heading)",
+                letterSpacing: "3px",
+                textShadow: "3px 3px 0px #000",
               }}
             >
               {user.username}
             </div>
             <div
               style={{
-                fontSize: "11px",
+                fontSize: "clamp(14px, 2.5vw, 16px)",
                 color: "var(--text-muted)",
                 textTransform: "uppercase",
-                letterSpacing: "1px",
-                marginTop: "4px",
+                letterSpacing: "3px",
+                marginTop: "8px",
                 background: "rgba(255,255,255,0.05)",
-                padding: "2px 8px",
-                borderRadius: "4px",
+                padding: "6px 16px",
+                borderRadius: "var(--radius)",
+                border: "3px solid var(--border)",
+                fontWeight: "bold",
                 display: "inline-block",
               }}
             >
@@ -81,32 +93,74 @@ export function Account() {
 
         <div
           style={{
-            borderTop: "1px solid var(--border)",
-            paddingTop: "24px",
+            borderTop: "3px solid var(--border)",
+            paddingTop: "clamp(24px, 4vw, 32px)",
             display: "flex",
             flexDirection: "column",
-            gap: "16px",
+            gap: "20px",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span style={{ color: "var(--text-muted)", fontSize: "13px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                color: "var(--text-muted)",
+                fontSize: "clamp(14px, 2.5vw, 16px)",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                fontWeight: "bold",
+              }}
+            >
               User ID
             </span>
-            <code style={{ fontSize: "12px", color: "var(--text-dim)" }}>
+            <code
+              style={{
+                fontSize: "clamp(12px, 2vw, 14px)",
+                color: "var(--text-dim)",
+                fontWeight: "bold",
+              }}
+            >
               {user.id}
             </code>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span style={{ color: "var(--text-muted)", fontSize: "13px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                color: "var(--text-muted)",
+                fontSize: "clamp(14px, 2.5vw, 16px)",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                fontWeight: "bold",
+              }}
+            >
               Auth Status
             </span>
-            <span style={{ fontSize: "13px", color: "var(--success)" }}>
+            <span
+              style={{
+                fontSize: "clamp(14px, 2.5vw, 16px)",
+                color: "var(--primary)",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+              }}
+            >
               Active Session
             </span>
           </div>
 
-          <div style={{ marginTop: "16px" }}>
+          <div style={{ marginTop: "24px" }}>
             <Button
               variant="danger"
               onClick={handleLogout}

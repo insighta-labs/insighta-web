@@ -35,7 +35,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
         {user && (
           <div className="layout-user">
-            <span className={`badge badge-${user.role}`} style={{ fontSize: "11px" }}>
+            <span
+              className={`badge badge-${user.role}`}
+              style={{ fontSize: "11px" }}
+            >
               {user.role}
             </span>
             <Link to="/account" className="layout-username">
@@ -50,9 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       <main className="layout-main">{children}</main>
 
-      <footer className="layout-footer">
-        INSIGHTA LABS+ — PROFILE INTELLIGENCE SYSTEM
-      </footer>
+      <footer className="layout-footer">PROFILE INTELLIGENCE SYSTEM</footer>
     </div>
   );
 }
