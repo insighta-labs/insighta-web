@@ -74,15 +74,21 @@ export function Callback() {
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
-        gap: "16px",
+        gap: "24px",
       }}
     >
-      <span className="spinner" style={{ width: "32px", height: "32px" }} />
+      <span
+        className="spinner"
+        style={{ width: "48px", height: "48px", borderWidth: "4px" }}
+      />
       <div
         style={{
           color: "var(--text-muted)",
-          letterSpacing: "2px",
-          fontSize: "12px",
+          letterSpacing: "4px",
+          fontSize: "clamp(14px, 3vw, 18px)",
+          fontWeight: "bold",
+          textTransform: "uppercase",
+          fontFamily: "var(--font)",
         }}
       >
         COMPLETING AUTHENTICATION...
