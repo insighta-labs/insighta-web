@@ -1,0 +1,21 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "dev",
+    "feat/retro-anime-ui-polish",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "dev": "main",
+    "feat/retro-anime-ui-polish": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "dev",
+    "feat/retro-anime-ui-polish",
+    "origin"
+  ]
+}
